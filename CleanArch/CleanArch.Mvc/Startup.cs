@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArch.Infra.Data.Context;
+using CleanArch.Infra.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -48,6 +49,8 @@ namespace CleanArch.Mvc
                     options.UseSqlServer(Configuration.GetConnectionString("UniversityDbConnection"));
                 });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            RegisterServices(services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +80,11 @@ namespace CleanArch.Mvc
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static void RegisterServices(IServiceCollection services)
+        {
+            DependencyContainer.RegisterServices(services);
         }
     }
 }
